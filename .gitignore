@@ -1,0 +1,8 @@
+# Claude Code — local-only settings (machine-specific, not shared)
+.claude/settings.local.json
+
+# プロンプト下書きバッファ（IME変換・誤送信防止のため手元に置く一時ファイル。追跡・公開しない）
+temp.md
+
+# Dependencies
+node_modules/
