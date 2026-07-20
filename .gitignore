@@ -4,5 +4,9 @@
 # プロンプト下書きバッファ（IME変換・誤送信防止のため手元に置く一時ファイル。追跡・公開しない）
 temp.md
 
+# エディタがスクリーンショットの貼り付けで生成する画像（image.png / image-1.png ...）。
+# 図を意図的に追加する用途は妨げない（別名で置く、または `git add -f`）
+image*.png
+
 # Dependencies
 node_modules/
