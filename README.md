@@ -25,7 +25,7 @@ Claude Code / Agent Skills を活用したAI駆動開発（AIDD: AI-Driven Devel
 
 - **人間が裁定者**：AIの提案を鵜呑みにしない。スクラムの「検査と適応」を、人間の判断責任として貫く（[01](01_ai-driven-dev-strategy.md) セクション2）
 - **曖昧さを検査可能にする**：確度ラベル（`[Fact]` / `[Judgment]` 等）と受入基準（AC: Acceptance Criteria）で、「もっともらしい散文」を反証可能な状態へ落とす（[01](01_ai-driven-dev-strategy.md) §2 ／ [06](06_requirements-spec-brainstorm.md) §5）
-- **WHAT と HOW の分離**：作るもの（What）と作り方（How）を分ける。テクニカル PdM（プロダクトマネージャー。技術的判断まで踏み込む立場）として、要件・仕様（何を作るか）の壁打ちまでを射程に収めた WHAT レイヤー（[06](06_requirements-spec-brainstorm.md)）を持つ
+- **WHAT と HOW の分離**：作るもの（What）と作り方（How）を分ける。テクニカル PdM（プロダクトマネージャー。技術的判断まで踏み込む立場）として、要件・仕様（何を作るか）の壁打ちまでを提供範囲に収めた WHAT レイヤー（[06](06_requirements-spec-brainstorm.md)）を持つ
 
 そのため本ガイドは、フルスタック向けの AIネイティブ／SDD／TDD の HOW（`01`〜`05`）に加え、PdM 視点の WHAT（`06`）を別レイヤーとして備える。WHAT レイヤー（`06`）は、要件・仕様が曖昧なまま開発が進み全体像が見えなくなる実プロジェクトの経験から生まれた——「何を作るか」を検査可能な形で固める必要を痛感したことが、この章の起点である。
 
