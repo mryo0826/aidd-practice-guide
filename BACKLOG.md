@@ -567,6 +567,20 @@
 - **⚠️ 一般性は `[Assumption]`。** 1回の観測。
 - **⚠️ 位置は未 triage**（末尾は AI の既定）。⚠️ **`01` へ入れる時点で版チェックが発火する**（ガイド本体）。
 
+### AT. WHAT を守る規律に方向がある——AI 自身の出力へ向いていない（`01`／`06` へ追記候補・人間が持ち込んだ観察）
+
+- **既にあるもの `[Fact]`:** [`06`](06_requirements-spec-brainstorm.md) は WHAT/HOW 分離を制度として持つ（§1 の対応表・§5「What > How 規律」・§5.1「**How に依存した曖昧な仕様は What へ巻き直すよう突く**」・§6 の着眼点）。⇒ **規律は既に存在する。**
+- 🔴 **ただし方向が一つしかない `[Fact]`:** これらはすべて **AI が人間の出力を検査する向き**に書かれている（AI＝reviewer／対象＝人間が書いた仕様）。**AI 自身の出力が How へ寄る向きは、どの規律も覆っていない。**
+- **傾向の裏づけ `[Fact]`（3ベンダー一致）:** 指示ファイルは各社とも `advisory`／`guidance` として位置づけられ、保証ではない（[Claude Code](https://code.claude.com/docs/en/best-practices)／[Cursor](https://cursor.com/docs/enterprise/llm-safety-and-controls)／[Codex](https://developers.openai.com/codex/guides/agents-md)）。⇒ **「書いておけば守られる」を前提にした規律は、どのベンダーの製品でも成立しない。**
+- ⚠️ **「実装へ直行する傾向」の明示は1社のみ `[Fact]`:** 「**Letting Claude jump straight to coding can produce code that solves the wrong problem**」「**Claude stops when the work looks done**」「**The trust-then-verify gap.** Claude produces a plausible-looking implementation that doesn't handle edge cases」（[Claude Code best practices](https://code.claude.com/docs/en/best-practices)）。**他2社では同じ強さの逐語が取れなかった。** ⇒ **この主張は現時点で1社の記述に依存する。**
+- ⭐ **WHAT を先に固める価値は別系統も述べている `[Fact]`:** Cursor「**The hard part is often figuring out what change should be made**」（原文で `what` を強調・[Plan Mode](https://cursor.com/docs/agent/plan-mode)）。⇒ **WHAT/HOW の分離は本ガイド固有の言い方ではない。**
+- **実例 `[Fact]`:** 本ガイドへの起票案を AI が書いた際、方法論の層に置くべき記述へ**具体的な技術構成の列挙を入れた**。作業者が「HOW が強すぎる」と指摘して層を戻した。⚠️ **AI は同じターンでそれを「一般性を上げるため」と説明していた**——**層を下げることを、価値を上げることとして提示していた。**
+- ⭐ **同じ根への部分対処が既に1件ある `[Fact]`:** `06` §8「**完成文の早出し禁止**」は「すぐ結果を出そうとする」への対処である。⇒ **症状ごとに1つずつ対処が作られ、根そのものには作られていない。** 📌 **項目 `AL` の実例。**
+- **なぜ本文に効くか `[Judgment]`:** [`01`](01_ai-driven-dev-strategy.md) の「AI が生成し、人間が裁定する」に、**裁定者が何を検査するか**の項目として「**出力の層が下がっていないか**」を足す形が候補。⚠️ **`06` の既存規律を AI の出力へも向ける書き方のほうが安い**（新設ではなく方向の追加）。
+- **⚠️ 由来の帰属は未確認 `[Assumption]`。** 「この傾向がモデル提供側の設計に由来し、利用者側では覆せない」という**因果の主張は、どの公式ドキュメントにも書かれていない**。⇒ **観測できるのは傾向とその対処までで、意図には到達していない。**
+- **⚠️ 一般性は `[Assumption]`。** 1回の観測＋作業者の経験則。
+- **⚠️ 位置は未 triage**（末尾は AI の既定）。⚠️ **`01` または `06` へ入れる時点で版チェックが発火する**（ガイド本体）。
+
 ---
 
 ## 知見の活性化（`.md` の方法論 → 実ツールで発火する Skill へ）
