@@ -615,6 +615,9 @@
 - ⚠️ **既存の注記は commit / push だけを覆っていた `[Fact]`:** `docs/design-decisions.md` は「権限モードによっては commit がゲート無しで通り、**規約は黙って空振りする**——しかも空振りしていること自体が見えない」と書いているが、**対象は commit / push 規約に限られている。** ⇒ 📌 **項目 `AL`（失敗を1件受けて作った修正は、その失敗の形だけを覆う）の実例がもう1件増えた。**
 - ⭐⭐ **一般形の候補 `[Judgment]`: 規律の所在は、文面ではなく配置にある。** 同じ規約でも、**制御plane（会話の先頭・行動から最遠）に置くと破れ、行動の直前のゲートに置くと効く。** ⇒ **規約を足すかどうかより、それが行動のどこに配置されるかのほうが効く。**
 - **論点（未決）:** `1`**空振りしている規約を洗い出す手段があるか**——「この規約が最後に発火したのはいつか」はどこにも記録されていない `2` **ゲートを持てない規約を、持てる形へ書き換えられるか**（`plan mode` の場合、合図は「人間が迷いを表明した瞬間」ではなく「**AI が選択肢を2つ以上持った瞬間**」かもしれない）`3` **あるいは、実行対象を失った規約は削除するのが正しいか。**
+- 🔴 **ゲートは製品側に実装されている `[Fact]`（逐語）:** 「**Enter plan mode by pressing `Shift+Tab` until the status bar shows `⏸ plan mode on`, or start the session with `claude --permission-mode plan`**」（[Claude Code best practices](https://code.claude.com/docs/en/best-practices)）。⇒ ⭐ **規約が空振りするのは、ゲートが無いからではない。ゲートは在るが、そこへ入る合図を規約側が持っていない。**
+- ⭐⭐ **論点 `2` には、ベンダーが既に答えを書いていた `[Fact]`（逐語・同資料）:** 「**Planning is most useful when you're uncertain about the approach, when the change modifies multiple files, or when you're unfamiliar with the code being modified. If you could describe the diff in one sentence, skip the plan.**」⇒ **発火条件が3つ定義されている**（アプローチが不確か／複数ファイルを変更／対象コードに不慣れ）。⚠️ **本ガイドの「方針に迷いが生じたら」は、この3つより曖昧で、AI 側が判定できる形になっていない。**
+- 🔴 **論点 `3` には第4の選択肢がある `[Fact]`（逐語・同資料）:** 「**Unlike CLAUDE.md instructions which are advisory, hooks are deterministic and guarantee the action happens.**」⇒ **実行対象を失った規約の行き先は「削除」だけではなく、「hook へ降ろす」がある。** 📌 **本ガイドの「設定や規律で塞ぐより、構造で成立させるほうが強い」と同じ方向を、ベンダーが製品機能として持っている。**
 - ⚠️ **`01` へ入れる時点で版チェックが発火する**（ガイド本体）。
 
 ### AW. 公開する制御plane に、著者個人の目的が混ざる（`CLAUDE.md` の見直し・人間が持ち込んだ）
@@ -624,6 +627,8 @@
 - ⚠️ **cold reader にはより強く壊れる `[Judgment]`:** 別環境の AI がこれを読むと「**著者**」が誰を指すか解決できない——**このリポジトリの著者なのか、いま使っている人なのか。** ⇒ **挙動は変わるが、意図と違う方向に変わる。** 📌 **項目 `AU` が定義した「本ガイドで『著者』は人間の書き手を指す」は、この語が誰の環境の話かまでは決めていない。**
 - **判断の候補:** `1` 作業日誌側（著者環境）へ引き上げる `2` 「自分の目的に置き換えて使う」と明示したうえで残す `3` 削除する。⚠️ **`1` が既定 `[Judgment]`（著者の見立て）だが未裁定。**
 - ⭐ **一般化 `[Judgment]`: 制御plane の項目には2種類ある**——**読み手が誰であっても効くもの**と、**著者環境の値であるもの**。本ガイドは後者の扱い方を既に2つ持っている（呼称は「**決めること自体が要点で、名前の中身ではない**」、作業日誌は「**自分の場所に持つ**」）。⇒ **セッション末の問いも同じ形にできるかが論点。**
+- ⭐⭐ **ベンダーが同じ基準を明文で持っている `[Fact]`（逐語）:** 「**CLAUDE.md is loaded every session, so only include things that apply broadly.**」「**Keep it concise. For each line, ask: "Would removing this cause Claude to make mistakes?" If not, cut it. Bloated CLAUDE.md files cause Claude to ignore your actual instructions!**」（[Claude Code best practices](https://code.claude.com/docs/en/best-practices)）⇒ **「著者個人の目的」は `apply broadly` を満たさない。** 📌 **判定基準は分量ではなく「消したら間違えるようになるか」の1問**——**本項目の裁定も、その1問で決まる。**
+- 🔴 **同資料は「規約が守られないこと」自体を、長さの症状として扱う `[Fact]`（逐語）:** 「**If Claude keeps doing something you don't want despite having a rule against it, the file is probably too long and the rule is getting lost.**」⇒ ⚠️ **本リポジトリには、規約があるのに再発し続けた事例が複数ある。** これまで「規約の書き方の問題」として扱ってきたが、**「制御plane が長すぎて規則が埋もれている」という説明は一度も検査していない** `[Judgment]`。⇒ **`AV`（規約が空振りする）と本項目は、同じ原因を別の側から見ている可能性がある。**
 - ⚠️ **本項目は `01`〜`06` ではなく `CLAUDE.md` を対象とするため、版チェックは発火しない。**
 
 ---
