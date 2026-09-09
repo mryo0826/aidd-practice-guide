@@ -9,6 +9,9 @@ Copyright (c) 2026 mryo0826
 Applies to: all prose, explanations, methodology, and decision records --
 that is, the body text of the Markdown documents.
 
+Does not apply to: the Skill files under .claude/skills/. Those files are
+covered by section 2 in full, including their body text.
+
 Creative Commons Attribution 4.0 International License (CC BY 4.0)
 
 NOTE: The following is a human-readable summary of the license, not a
@@ -36,26 +39,34 @@ Full license text:
 https://creativecommons.org/licenses/by/4.0/legalcode
 
 ================================================================================
-2. CODE SNIPPETS, CONFIGURATION EXAMPLES, AND TEMPLATES -- MIT
+2. CODE SNIPPETS, CONFIGURATION EXAMPLES, TEMPLATES, AND SKILLS -- MIT-0
 ================================================================================
 
 Applies to: the contents of fenced code blocks, including configuration
 examples, directory layouts, SKILL.md scaffolds, prompt templates, and
 checklists -- material that is meant to be copied into your own project.
 
+Also applies to: the Skill files distributed under .claude/skills/ -- each
+SKILL.md in full, not only the fenced blocks inside it. These are shipped to
+be copied into your own project, which is the same reason the material above
+is MIT-0.
+
 No attribution is required when you copy these into your own work.
 
-MIT License
+NOTE: unlike section 1, the sentence above is not a summary of a longer
+license. MIT-0 is the MIT license with the attribution paragraph removed, so
+the terms reproduced below say the same thing. The full terms follow.
+
+MIT No Attribution (MIT-0)
+
+Copyright (c) 2026 mryo0826
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+furnished to do so.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
