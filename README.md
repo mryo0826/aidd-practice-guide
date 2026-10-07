@@ -41,7 +41,7 @@ Claude Code / Agent Skills を活用したAI駆動開発（AIDD: AI-Driven Devel
 1. **生成AIを学んで使う人間** — AIとの協働を規律づけたい開発者・PdM。
 2. **`.md` を読み込んで動く生成AIツール自体**（Claude Code 等）。`.md` は"読む対象"であると同時に、**"ロードして走らせる対象"**でもある。
 
-**Claude Code では** [CLAUDE.md](CLAUDE.md) が毎セッション制御planeとして読み込まれ、[.claude/skills/](.claude/skills/) 配下の Skill は description の意味照合で発火する（**何が入っているかは [.claude/skills/](.claude/skills/) を直接見てください**——ここに名前を列挙すると、増減のたびに腐ります）。⚠️ **自動ロードの挙動はツールごとに違う。** 本ガイドが裏取りしているのは Claude Code の挙動である。**AI読者を想定するなら「読める」より「発火する（走る）」ほうが証拠として強い**——これが本ガイドの活性化（方法論を Skill として実装すること）を駆動する立脚点である（[docs/design-decisions.md](docs/design-decisions.md) §6）。
+**Claude Code では** [CLAUDE.md](CLAUDE.md) が毎セッション制御planeとして読み込まれ、[.claude/skills/](.claude/skills/) 配下の Skill は description の意味照合で発火する（⚠️ 著者の環境では、AI に届く Skill の一覧から説明文が落ちていることがあり、Skill が呼ばれているのは `CLAUDE.md` の規約が名前で指しているから——[BACKLOG.md](BACKLOG.md) 項目 `BF`。**何が入っているかは [.claude/skills/](.claude/skills/) を直接見てください**——ここに名前を列挙すると、増減のたびに腐ります）。⚠️ **自動ロードの挙動はツールごとに違う。** 本ガイドが裏取りしているのは Claude Code の挙動である。**AI読者を想定するなら「読める」より「発火する（走る）」ほうが証拠として強い**——これが本ガイドの活性化（方法論を Skill として実装すること）を駆動する立脚点である（[docs/design-decisions.md](docs/design-decisions.md) §6）。
 
 ただし**二層であって、AIが主目的という意味ではない**。人間の判断（裁定・メタ認知）が常に上位にあり、AIツールはそれを高速に発火・検査する側にある。どの `.md` がどこまで実際に発火しているか（＝書いた量と活性化した量は一致しない）は [BACKLOG.md](BACKLOG.md) の「知見の活性化」を参照。
 
@@ -76,7 +76,7 @@ Claude Code / Agent Skills を活用したAI駆動開発（AIDD: AI-Driven Devel
 
 ### Token効率を最大化する運用ルール
 
-1. **トピック別にセッションを分ける** — 1つの長いセッションを続けない。議論が一区切りついたらセッションを閉じる
+1. **トピック別にセッションを分ける** — 区切りの候補は AI が申告し、閉じるかは人間が決める。区切ること自体にもコストがある（新しいセッションは起動と再開手順だけで文脈を使う。[CLAUDE.md](CLAUDE.md)「チーム共通ルール」）
 2. **確定した内容はMarkdownに書き戻す** — Markdownが「外部記憶」として機能し、次のセッションで同じ議論を繰り返さない
 3. **`@ファイル名` で必要なファイルだけ参照** — 全ファイルを同時に渡さない
 4. **壁打ち済みの箇所は確定マーク** — `<!-- BRAINSTORM -->` を消して確定内容に置き換える
