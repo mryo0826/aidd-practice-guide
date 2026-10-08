@@ -323,14 +323,14 @@
 - **中核 `[Judgment]`（著者が言語化）:** PBR で**大幅な並び替えと項目追加が同一バッチで起きると、git diff 上で「どれが移動でどれが新規か」を人間が判別できなくなる**。AI 速度のバッチ操作と、人間の diff レビューの限界とのミスマッチ。**まだ顕在化していないが、AI 側からは構造的に気づけない視点**——人間のレビュー認知限界を AI はモデル化できない（項目 O「AI は並行変更を検知できない」の系）。
 - **既存の対処では埋まらない `[Fact]`:** 2026-07-24 の PBR は node スクリプトでディスク直接操作し**転記ミスをゼロにした**（そのレトロで Keep に挙がった）が、それは「移動が正確か」の問題。「**移動と追加を人間が diff で区別できるか**」は別問題で、未対処。
 - **対策候補 `[Judgment]`:** PBR を**「並び替えのみのコミット」→「追加のみのコミット」の2段に分ける**。diff が「純粋な移動」と「純粋な追加」に割れ、**commit 前の diff レビュー（検査点。`docs/design-decisions.md` §2）が盲目化しない**。項目 S の「commit 前の diff レビューが検査点」を守る operation hygiene であり、**2026-07-23 の作業で得た「削除は参照の付け替えとセット」と同型**（操作を、レビュー可能な単位に分割する）。
-- **⚠️ 項目 U（速度は検出窓を圧縮する）の *operation* 版。** U は「書いた内容の検査」、本項は「**操作そのものの検査可能性**」を扱う。
+- **⚠️ 項目 U（AI の生成が速いほど、誤りに気づく前に次の作業が積み上がる）の *operation* 版。** U は「書いた内容の検査」、本項は「**操作そのものの検査可能性**」を扱う。
 - 📌 **本項の起票は純粋な追加（並び替えなし）なので diff はクリーン**——対策の実演になっている。
 - **⚠️ 位置は未 triage**（末尾は AI の既定）。優先度は次の PBR で決める。
 
 ### W. モデル提供元の公式ガイダンスと本ガイドは、評価軸が別物である（2026-07-26 起票／2026-07-27 立脚点を変更・人間が持ち込んだ盲点）
 
 - **中核 `[Fact]`（一次ソース逐語）:** Claude Opus 5 の公式プロンプティングガイドは「If your prompt contains explicit verification instructions ("include a final verification step for any non-trivial task," "use a subagent to verify"), **remove them: instructions like these cause over-verification on Claude Opus 5, and removing them reduces wasted tokens with no loss in quality.** The same applies to legacy harness scaffolding that adds separate verification steps.」と述べ、さらに「Avoid instructing re-checks it already performs」と続ける（[Prompting Claude Opus 5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5)・確認日 2026-07-26）。
-- **🔴 適用範囲は検証指示にとどまらない `[Fact]`（一次ソース逐語）:** 公式ブログは「**We removed over 80% of Claude Code's system prompt for models like Claude Opus 5 and Claude Fable 5 with no measurable loss on our coding evaluations.**」と述べ、Then→Now の対比として「**Let Claude use judgement**」（明示的なルールと制約を与える → 不要なガードレールを外す）「**Claude now automatically saves memories that are relevant to the work**」（`CLAUDE.md` への手動保存 → auto-memory）を挙げる（Thariq Shihipar, [The New Rules of Context Engineering for Claude 5 Generation Models](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models)・Anthropic・2026-07-24 公開・確認日 2026-07-27）。⇒ **当たっているのは検証指示だけでなく、規約を積んだ常時ロードの制御plane そのものである**（実測: 本リポジトリの `CLAUDE.md` は 22,242 バイト／115行。当時の値で、2026-10-08 には 38,272 バイト／139 行になっている）。
+- **🔴 適用範囲は検証指示にとどまらない `[Fact]`（一次ソース逐語）:** 公式ブログは「**We removed over 80% of Claude Code's system prompt for models like Claude Opus 5 and Claude Fable 5 with no measurable loss on our coding evaluations.**」と述べ、Then→Now の対比として「**Let Claude use judgement**」（明示的なルールと制約を与える → 不要なガードレールを外す）「**Claude now automatically saves memories that are relevant to the work**」（`CLAUDE.md` への手動保存 → auto-memory）を挙げる（Thariq Shihipar, [The New Rules of Context Engineering for Claude 5 Generation Models](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models)・Anthropic・2026-07-24 公開・確認日 2026-07-27）。⇒ **当たっているのは検証指示だけでなく、規約を積んだ常時ロードの制御plane そのものである**（実測: 本リポジトリの `CLAUDE.md` は 22,242 バイト／115行。当時の値で、2026-10-08 には 38,258 バイト／139 行になっている）。
 - **なぜ本ガイドに当たるか:** 本ガイドの制御plane は**検証指示の積み上げで規律を実装している**（時間差の再点検・前提の再点検・「実測してから発話する」）。公式の助言をそのまま適用すると、**これらは「消すべき scaffolding」に分類される。**
 - **⭐ 立脚点 `[Judgment]`（2026-07-27 に変更）:** これは「公式への反論」ではなく**評価軸の相違**である。公式の "no measurable loss" が測っているのは **coding evals＝モデル出力の品質**。本ガイドの規約が守るのは ①**人間が裁定した証跡が残ること** ②**人間が状態を頭の中に置かずに済むこと**——**どちらも coding evals では測れない。受益者が違う。**
   - ⇒ **「公式がやめろと言った」は撤回の理由にならない。** だが同時に、**これは「本ガイドが正しい」の根拠にもならない**——別の軸で測っていない、というだけである。
@@ -471,6 +471,7 @@
   - 📌 **これは項目 H の活性化状況に効く** `[Judgment]`——**系統的なクロスレビューは依然未実施**だが（[`README`](README.md)「生成AIの利用について」の記述は維持される）、**単発の実行例が1件増えた。** ⚠️ **1件を「実施した」と読み替えない**（`v1.4.5` で同じ型の overclaim を起こしている）。
 - **⚠️ 本項が扱わないもの:** **なぜ今 README を見直したいかという動機**は、公開しない判断（著者裁定・2026-07-30）。⇒ **本項の範囲は「入口の記述が現在の中身と一致しているか」に限る。**
 - **論点（未決）:** ①どの節が古いかの棚卸し（現状は「ずれている感じがする」までで、**具体箇所が特定されていない**）②項目 AH（モデル表）と同じ場所を触るので、**まとめるか分けるか** ③「短時間で中身を確かめたい方へ」の3点が、いま最も見せるべき3点のままか
+  - 📌 **③の材料（2026-10-08）:** 3点の2番目が指す項目 C の表は 2026-07-18 時点のもので、項目 C の側にはそう明記したが、README の入口からは読み取れない。
 - **⚠️ ガイド本体なので版チェックが発火する。** ⚠️ **位置は未 triage**（末尾は AI の既定）。
 
 ### AK. セッション単位のトークン消費はコマンドでは測れないが、条件下で「枠に占めた割合」の近似は取れる（`02` へ追記候補・2026-07-26 実測／2026-08-01 起票・同日改訂）
