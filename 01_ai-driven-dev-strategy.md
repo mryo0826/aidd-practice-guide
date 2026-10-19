@@ -301,13 +301,13 @@
 >
 > ⚠️ **それでも API の数値を載せるのは、意思決定の向きがこの構造から導けるため**である（何を避け、何を小さく保つか）。**自分の請求額や残枠を見積もる根拠には使わないこと。**
 
-- `[Fact]`（**API 価格表**）各メッセージで全履歴が再送されるが、プロンプトキャッシュにより直前までの安定プレフィックスは**キャッシュ読み出し（基準入力単価の 0.1 倍）**で処理される（[Anthropic「Pricing」](https://platform.claude.com/docs/en/about-claude/pricing)・確認日 2026-07-28）。ゆえに「会話が長いほど1メッセージが加速度的に高騰する」わけではない（単価が上がるのではなく、扱う量が緩やかに増えるだけ）。
+- `[Fact]`（**API 価格表**）各メッセージで全履歴が再送されるが、プロンプトキャッシュにより直前までの安定プレフィックスは**キャッシュ読み出し（基準入力単価の 0.1 倍）**で処理される（[Anthropic「Pricing」](https://platform.claude.com/docs/en/about-claude/pricing.md)・確認日 2026-07-28）。ゆえに「会話が長いほど1メッセージが加速度的に高騰する」わけではない（単価が上がるのではなく、扱う量が緩やかに増えるだけ）。
 - `[Fact]`（**API 価格表**）コストの主ドライバは会話の長さより次の2つ:
   - **出力（生成）量** — 出力は入力より高単価（Opus 級は入力 $5／出力 $25 per MTok ＝ **5倍**。同上・確認日 2026-07-28）。丸ごと書き換え（Write）の多発が効くので、可能ならターゲット Edit を選ぶ。
   - **大きな一度きりの取り込み** — 巨大ファイルや参照ドキュメントの読み込み。必要な分だけ `@` 参照で渡す。
 - `[Judgment]` それでもトピック別にセッションを切る運用は有効: 長い履歴のキャッシュ読み出し（0.1倍だが無料ではない）の累積と、大型コンテキストの持ち回り・再取り込み・再生成を避けられる。
 - `[Fact]`（**API 価格表**）**長い空白を挟む再開はキャッシュミスを生む。** キャッシュ TTL（**5分（既定）／1時間**）を超えて途切れると、次の1リクエストで累積プレフィックス全体を**書き込みで作り直す**——単価は**5分 TTL で 1.25 倍・1時間 TTL で 2 倍**（読み出し 0.1 倍に対し、それぞれ **12.5 倍・20 倍**。同上・確認日 2026-07-28）。⚠️ **どちらの TTL で動いているかは実行環境に依存する**ため、倍率を語る前に自分の環境を確認すること。空白を跨ぐ長寿命セッションはこれを繰り返す。アイドル時間そのものは課金されないが、再開の最初の1発が高くなる。
-- `[Fact]`（**機構。課金の層に依存しない**）**cold write を決めるのは「セッションが新しいか」ではなく「TTL 内に同じプレフィックスが残っているか」である。** キャッシュは**プロンプトのプレフィックスの一致**で引かれ、セッション単位ではない——公式ドキュメントは「**Cache hits require 100% identical prompt segments**（キャッシュヒットには、cache control を付けたブロックまでのプロンプトが 100% 同一であることが必要）」と述べる（[Anthropic「Prompt caching」](https://platform.claude.com/docs/en/build-with-claude/prompt-caching)・確認日 2026-07-28）。⇒ TTL を超えた再開は新旧どちらも cold write になり、cold write 自体は空白を跨ぐ限り避けられない（回避は TTL 内の連続利用か事前ウォームのみ）。
+- `[Fact]`（**機構。課金の層に依存しない**）**cold write を決めるのは「セッションが新しいか」ではなく「TTL 内に同じプレフィックスが残っているか」である。** キャッシュは**プロンプトのプレフィックスの一致**で引かれ、セッション単位ではない——公式ドキュメントは「**Cache hits require 100% identical prompt segments**（キャッシュヒットには、cache control を付けたブロックまでのプロンプトが 100% 同一であることが必要）」と述べる（[Anthropic「Prompt caching」](https://platform.claude.com/docs/en/build-with-claude/prompt-caching.md)・確認日 2026-07-28）。⇒ TTL を超えた再開は新旧どちらも cold write になり、cold write 自体は空白を跨ぐ限り避けられない（回避は TTL 内の連続利用か事前ウォームのみ）。
   - ⚠️ **訂正（2026-07-28）: 従前は「キャッシュは共有されず」と書いていたが、これは誤りだった。** **セッションの新旧はヒットの条件ではない**——決めるのはプレフィックスの一致である。⇒ **プレフィックスが一致していれば、別セッションでもヒットしうる** `[Assumption]`（本ガイドはエディタ上の実運用では測っていない。常時ロードされる `CLAUDE.md` までは一致しても、会話の内容で必ず分岐する）。
     - ⚠️ **ただし「プレフィックスが一致すれば必ずヒットする」ではない。** `[Fact]` 公式ドキュメントは**プレフィックスの一致とは別に、組織単位の分離**を定めている——「**Caches are isolated between organizations. Different organizations never share caches, even if they use identical prompts.**（キャッシュは組織間で分離され、同一のプロンプトを使っていても組織をまたいで共有されることはない）」（出典・確認日は上に同じ）。⇒ **非共有の理由は「プレフィックスが違う」だけではない。**
       - **workspace 単位の分離もあるが、こちらは提供プラットフォームに依存する** `[Fact]`——「**Caches are also isolated per workspace within an organization on the Claude API, Claude Platform on AWS, and Microsoft Foundry; Bedrock and Google Cloud use organization-level isolation only.**（組織内では workspace 単位でも分離されるが、それは Claude API・Claude Platform on AWS・Microsoft Foundry の場合であり、Bedrock と Google Cloud は組織単位の分離のみ）」（同上・確認日 2026-07-30）。⇒ **「組織・workspace 単位で分離される」と一括では書けない。**
@@ -416,7 +416,7 @@ Claude Code のサブエージェント（Task tool）は、メインの文脈�
 >
 > ただし `skills` が制御するのは**「起動時にプリロードするか」であって「利用できるか」ではない**。列挙しなかった Skill も、サブエージェントが `Skill` ツールを持っていれば発見・呼び出しできる。つまりこのフィールドは**コンテキスト最適化のスイッチ**であり、アクセス制限ではない。
 >
-> したがって **Skill の中身が確実に効いている必要がある委任では、`skills` に明示列挙する**（呼び出し任せにすると、サブエージェントが呼ばない可能性が残る）。出典: [Claude Code Docs / Sub-agents](https://code.claude.com/docs/en/sub-agents)・[Agent SDK / Subagents](https://code.claude.com/docs/en/agent-sdk/subagents)。
+> したがって **Skill の中身が確実に効いている必要がある委任では、`skills` に明示列挙する**（呼び出し任せにすると、サブエージェントが呼ばない可能性が残る）。出典: [Claude Code Docs / Sub-agents](https://code.claude.com/docs/en/sub-agents.md)・[Agent SDK / Subagents](https://code.claude.com/docs/en/agent-sdk/subagents.md)。
 >
 > **`[Judgment]` この訂正自体が、前セッションで正本に書いた主張を時間差で再点検する常設手順（`CLAUDE.md` の再開手順 step 2）の成果である。** 前セッションでも公式ドキュメントで裏取りして `[Fact]` を付けたが、「プリロードされない」を「アクセスできない」と読み違えていた。**裏取り済みの `[Fact]` でも、出典の主張と本文の主張がズレることがある**——確度ラベルは「出典を見た」ことの証明であって、「正しく読めた」ことの証明ではない。
 

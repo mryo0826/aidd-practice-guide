@@ -9,7 +9,7 @@
 
 > **⚠️ この章の根拠は2026年7月に更新された（重要）:** 本章は当初「**MCPのツール定義はコンテキストに常時ロードされるため、導入するほどToken消費が増大する**」を主根拠にしていた。**この部分は現在の Claude Code では既定で成立しない。**
 >
-> `[Fact]` Claude Code は **tool search を既定で有効**にしており、ツール定義は遅延ロードされる。セッション開始時にコンテキストへ入るのは**ツール名とサーバー指示のみ**。公式ドキュメントは「adding more MCP servers has minimal impact on your context window」と明記している。出典: [Claude Code Docs / MCP](https://code.claude.com/docs/en/mcp)
+> `[Fact]` Claude Code は **tool search を既定で有効**にしており、ツール定義は遅延ロードされる。セッション開始時にコンテキストへ入るのは**ツール名とサーバー指示のみ**。公式ドキュメントは「adding more MCP servers has minimal impact on your context window」と明記している。出典: [Claude Code Docs / MCP](https://code.claude.com/docs/en/mcp.md)
 >
 > **ただし結論は変わらない。主コストが別の軸にあることが分かっただけである。** 外部の報告では **Playwright MCP のブラウザ操作が1操作あたり 5,000〜10,000 トークン**を消費し、CLI + HTTP API 方式への置き換えで **約90%削減**できたとされる（§1.1 の引用を参照）。これは**呼び出しごとのレスポンス量**によるもので、tool search では解消しない。
 >
@@ -51,9 +51,9 @@ Agent Skills + CLI:
   ② 同上
 ```
 
-> **`[Fact]` ① について — tool search の挙動:** 既定（環境変数未設定）では全MCPツール定義が遅延ロードされ、セッション開始時に入るのはツール名とサーバー指示のみ。`ENABLE_TOOL_SEARCH` で変更でき、`auto` はコンテキストウィンドウの10%に収まる分だけ先読み、`false` は全先読み（旧来の挙動）。`tool_reference` 対応モデル（Claude Sonnet 4.5 / Haiku 4.5 / Opus 4.5 以降）が必要。出典: [Claude Code Docs / MCP](https://code.claude.com/docs/en/mcp)
+> **`[Fact]` ① について — tool search の挙動:** 既定（環境変数未設定）では全MCPツール定義が遅延ロードされ、セッション開始時に入るのはツール名とサーバー指示のみ。`ENABLE_TOOL_SEARCH` で変更でき、`auto` はコンテキストウィンドウの10%に収まる分だけ先読み、`false` は全先読み（旧来の挙動）。`tool_reference` 対応モデル（Claude Sonnet 4.5 / Haiku 4.5 / Opus 4.5 以降）が必要。出典: [Claude Code Docs / MCP](https://code.claude.com/docs/en/mcp.md)
 
-> **`[Fact]` ② について — MCPレスポンスは大きくなりやすい:** Claude Code は **MCP出力が10,000トークンを超えると警告し、既定で25,000トークンに制限する**（`MAX_MCP_OUTPUT_TOKENS` で変更可）。この制限が設けられていること自体が、MCPレスポンスが桁違いに膨らみうる実態を示している。出典: [Claude Code Docs / MCP](https://code.claude.com/docs/en/mcp)
+> **`[Fact]` ② について — MCPレスポンスは大きくなりやすい:** Claude Code は **MCP出力が10,000トークンを超えると警告し、既定で25,000トークンに制限する**（`MAX_MCP_OUTPUT_TOKENS` で変更可）。この制限が設けられていること自体が、MCPレスポンスが桁違いに膨らみうる実態を示している。出典: [Claude Code Docs / MCP](https://code.claude.com/docs/en/mcp.md)
 
 > **📝 引用（Token消費 約90%削減の報告）:** `[Fact]` ブラウザ操作タスクにおいて **Playwright MCP は1操作あたり 5,000〜10,000 トークン**を消費するとの報告がある（操作ごとにページ状態の構造化スナップショットが返るため）。次の構成へ置き換えることで **Token消費を約90%削減**（複数タスクの比較。ログイン＋2段階認証の例では93.8%）、複数回の操作を含むタスクでは**10分の1**になったと報告されている。
 >
@@ -328,7 +328,7 @@ MCPを導入する場合でも、Token消費を最小化する運用が重要。
 
 プロジェクト共有と個人ローカルを分けて管理する。`--project` に絶対パスが必要な MCP（Serena等）は共有設定に含められないため、local scope に分離する。
 
-`[Fact]` MCPサーバーの設定scopeは3つあり、保存先が異なる。出典: [Claude Code Docs / MCP — MCP installation scopes](https://code.claude.com/docs/en/mcp)
+`[Fact]` MCPサーバーの設定scopeは3つあり、保存先が異なる。出典: [Claude Code Docs / MCP — MCP installation scopes](https://code.claude.com/docs/en/mcp.md)
 
 | scope | 読み込まれる範囲 | チーム共有 | 保存先 |
 |-------|-----------------|-----------|--------|
