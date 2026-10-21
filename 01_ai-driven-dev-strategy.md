@@ -404,8 +404,10 @@ Claude Code のサブエージェント（Task tool）は、メインの文脈�
 | 場面 | サブエージェントを使う理由 |
 |------|--------------------------|
 | コードベースの広範囲探索 | メイン文脈にノイズを入れず、結果だけ受け取る |
-| 複数ファイルの並列調査 | 直列よりもToken効率・速度が良い |
+| 複数ファイルの並列調査 | 速度が上がる。メイン文脈を保てる |
 | 独立したサブタスクの実行 | メインの推論過程を中断しない |
+
+> ⚠️ **並列にしても Token は減らない:** 公式のプロンプトガイドは「Delegation pays off on genuinely independent, sizeable tracks of work, but it multiplies cost and time when applied to small tasks」と書いている `[Fact]`（[Prompting Claude Opus 5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5.md)「Controlling subagent spawning」・確認日 2026-10-21）。⇒ 効くのは速度とメイン文脈の保全で、総 Token は直列より増えうる `[Judgment]`。**数回のツール呼び出しで済む調査は、委任せずに自分で読む。**
 
 **原則:**
 - サブエージェントは「調べてきて結果だけ教えて」の委任モデルで使う
