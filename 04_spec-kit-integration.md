@@ -101,7 +101,7 @@ uvx --from git+https://github.com/github/spec-kit.git specify init . --ai claude
 **Token消費を抑える運用:**
 1. 1機能 = 1 Gitブランチ = 1 セッション で進める（Spec KitはGitブランチで機能を検出）
 2. 仕様が大きい場合はフェーズを分割して `/speckit.implement` を複数回実行
-3. 完了した機能の `.specify/features/` は次のセッションで `@` 参照しない
+3. 完了した機能の `.specify/features/` は、次のセッションで読ませない
 
 ---
 
