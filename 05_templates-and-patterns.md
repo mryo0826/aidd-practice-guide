@@ -125,9 +125,12 @@ description: Spec Kitの仕様駆動開発ワークフローを実行する。�
 | 実装 | `/speckit-implement` | タスクを1つずつ実行 |
 | 突き合わせ | `/speckit-converge` | コードを成果物と突き合わせ、残りを tasks に足す |
 
-## 補助コマンド（本番の機能では、全部の流れとして挟む）
+## 最初に1回
 
-- `/speckit-constitution` — プロジェクト原則の定義・更新
+- `/speckit-constitution` — プロジェクト原則の定義・更新（プロジェクトに1回。原則を変える時に更新）
+
+## 品質ゲート（本番の機能では、流れの間に挟む）
+
 - `/speckit-clarify` — 仕様の曖昧さを解消（specify の後）
 - `/speckit-checklist` — 要件の品質のチェックリスト（plan の後）
 - `/speckit-analyze` — spec・plan・tasks の一貫性チェック（tasks の後・読むだけ）

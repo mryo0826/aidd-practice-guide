@@ -47,8 +47,10 @@ How層（どう作るか）   → Agent Skills（タスクの実行手順）
 |------|------|------|
 | バグ修正・小改修（1〜2ファイル） | CLAUDE.md + Skills のみ | 仕様フローがoverkill |
 | 軽量変更（仕様を先に固定したい変更） | 仕様Markdown + Skills | Markdownに仕様を書いてAIに渡す。要件が明確なら十分 |
-| 論点が複数ある変更 / 中〜大規模変更 | Spec Kit フルフロー | Specify → Plan → Tasks → Implement の価値が出る |
+| 論点が複数ある変更 / 中〜大規模変更 | Spec Kit フルフロー | Specify から Converge までの流れ（§4）の価値が出る |
 | 大規模リファクタリング | Spec Kit + Constitution見直し | アーキテクチャ変更をConstitutionで制御しつつ実施 |
+
+> ⚠️ **Spec Kit の2行は、動かさずに定義した推奨である `[Assumption]`**（出自は §3）。
 
 > **補足:** 「仕様Markdown + Skills」は新機能に限定されない。簡易な仕様変更のように要件が明確・単純だが仕様を先に書きたい変更にも有効（適用例は `02_mcp-and-tools-ecosystem.md` セクション1.3）。
 
@@ -92,6 +94,7 @@ uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX
 specify init --here --force --integration claude --script sh
 ```
 
+- **Token を抑えるなら、`--integration-options="--no-model-invocation"` を付けられる**（中核のコマンドの Skill の説明文を文脈から外す——§3 の Token効率）。
 - **空でないディレクトリには `--force` が要る**（合流の確認）。公式は、先に既存の変更を commit するかバックアップを取ることを求めている。
 - **初期化すると、`.specify/`（memory・scripts・templates 等）と、Claude Code 用の Skill（`.claude/skills/speckit-<command>/`）が追加される。** 既存の `CLAUDE.md`・`.gitignore` は書き換えなかった `[Fact]`（2026-10-23 の実測。他の既存ファイルは確かめていない）。機能毎の成果物は、リポジトリ直下の `specs/<NNN-name>/`（spec.md・plan.md・tasks.md）に置かれる。
 - **Claude Code では `/speckit-specify` のようにハイフンで呼ぶ。** 公式の references はドット形（`/speckit.specify`）で書かれている（公式の [Command Invocation](https://github.github.io/spec-kit/integrations/cli.html#command-invocation)）。下の表は Claude Code の呼び名で書く。
