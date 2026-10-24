@@ -63,7 +63,7 @@ Spec Kit は GitHub 公式の仕様駆動開発（SDD: Spec-Driven Development�
 **採用しなかった理由**（いずれも動かして確かめた物ではない）:
 - **対象タスクの規模が合わなかった `[Assumption]`:** 要件が明確で小〜中規模の変更は `仕様Markdown + Skills` で完結し、Spec Kit フルフローは不要だった（`02_mcp-and-tools-ecosystem.md` セクション1.3 の適用例）。
 - **学習・初期コスト `[Assumption]`:** Constitution 設計やフェーズ運用に初期コストがかかり、軽量タスクでは投資対効果が出にくい。
-- **Token効率 `[Assumption]`:** 機能毎の仕様ファイル（`specs/<NNN-name>/` の spec・plan・tasks）は、実装フェーズで大量に消費しうる。加えて、CLI のプロセスは常駐しないが、Claude Code 向けには `/speckit-*` の Skill が入り、既定ではその説明文が Skill 一覧の予算を消費する `[Fact]`（公式 `docs/integrations/claude.md`。初期化の時に `--integration-options="--no-model-invocation"` を付けると、中核のコマンドの Skill は人間が呼ぶ時だけ動き、説明文が文脈から外れる）。
+- **Token効率 `[Assumption]`:** 機能毎の仕様ファイル（`specs/<NNN-name>/` の spec・plan・tasks）は、実装フェーズで大量に消費しうる。加えて、CLI のプロセスは常駐しないが、Claude Code 向けには `/speckit-*` の Skill が入り、既定ではその説明文が Skill 一覧の予算を消費する `[Fact]`（公式の [Claude Code の連携の説明](https://github.github.io/spec-kit/integrations/claude.html)。初期化の時に `--integration-options="--no-model-invocation"` を付けると、中核のコマンドの Skill は人間が呼ぶ時だけ動き、説明文が文脈から外れる）。
 
 **Spec Kit が割に合う条件（採用を再検討すべき場面）:**
 - 論点が多い／中〜大規模の機能追加
@@ -94,9 +94,9 @@ specify init --here --force --integration claude --script sh
 
 - **空でないディレクトリには `--force` が要る**（合流の確認）。公式は、先に既存の変更を commit するかバックアップを取ることを求めている。
 - **初期化すると、`.specify/`（memory・scripts・templates 等）と、Claude Code 用の Skill（`.claude/skills/speckit-<command>/`）が追加される。** 既存の `CLAUDE.md`・`.gitignore` は書き換えなかった `[Fact]`（2026-10-23 の実測。他の既存ファイルは確かめていない）。機能毎の成果物は、リポジトリ直下の `specs/<NNN-name>/`（spec.md・plan.md・tasks.md）に置かれる。
-- **Claude Code では `/speckit-specify` のようにハイフンで呼ぶ。** 公式の references はドット形（`/speckit.specify`）で書かれている（公式 `docs/integrations/cli.md` の Command Invocation）。下の表は Claude Code の呼び名で書く。
+- **Claude Code では `/speckit-specify` のようにハイフンで呼ぶ。** 公式の references はドット形（`/speckit.specify`）で書かれている（公式の [Command Invocation](https://github.github.io/spec-kit/integrations/cli.html#command-invocation)）。下の表は Claude Code の呼び名で書く。
 
-**コマンドと2つの流れ:** 公式の Quick Start は、小さめの機能向けの「短い流れ」と、本番の機能向けの「全部の流れ」を分けている——**§2 の重量の選び分けと同じ軸が、Spec Kit の中にもある。**
+**コマンドと2つの流れ:** 公式の [Quick Start](https://github.github.io/spec-kit/quickstart.html) は、小さめの機能向けの「短い流れ」と、本番の機能向けの「全部の流れ」を分けている——**§2 の重量の選び分けと同じ軸が、Spec Kit の中にもある。**
 
 | コマンド | 役割 | 短い流れ | 全部の流れ |
 |---------|------|:---:|:---:|
