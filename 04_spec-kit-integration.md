@@ -58,7 +58,7 @@ How層（どう作るか）   → Agent Skills（タスクの実行手順）
 
 Spec Kit は GitHub 公式の仕様駆動開発（SDD: Spec-Driven Development）ツールキット（MIT License）。仕様→計画→タスク→実装のワークフローを、エージェントから呼ぶコマンド（Claude Code では Skill）で提供する。**現状は主運用に採用していない。**
 
-> **出自 `[Fact]`:** 本節は、Spec Kit を動かして評価した記録ではない。**2025-12 頃の情報を前提に、2026-03 の本ガイドのごく初期のプロトタイプで、動かさずに当時のモデル（Opus 4.8 前後）の学習知識を元に定義した**判断である。2026-10-23 に別系統の生成AI のクロスレビュー（`01` §2 の段階3）で §4 の陳腐化が見つかり、Spec Kit `v1.2.3` で `specify init` だけを実測した。**フルフローは今も動かしていない。**
+> **出自 `[Assumption]`（著者の記憶。当時の記録は残っていない）:** 本節は、Spec Kit を動かして評価した記録ではない。**2025-12 頃の情報を前提に、2026-03 の本ガイドのごく初期のプロトタイプで、動かさずに当時のモデル（Opus 4.8 前後）の学習知識を元に定義した**判断である。2026-10-23 に別系統の生成AI のクロスレビュー（`01` §2 の段階3）で §4 の陳腐化が見つかり、Spec Kit `v1.2.3` で `specify init` だけを実測した。**フルフローは今も動かしていない。**
 
 **採用しなかった理由**（いずれも動かして確かめた物ではない）:
 - **対象タスクの規模が合わなかった `[Assumption]`:** 要件が明確で小〜中規模の変更は `仕様Markdown + Skills` で完結し、Spec Kit フルフローは不要だった（`02_mcp-and-tools-ecosystem.md` セクション1.3 の適用例）。
@@ -93,7 +93,7 @@ specify init --here --force --integration claude --script sh
 ```
 
 - **空でないディレクトリには `--force` が要る**（合流の確認）。公式は、先に既存の変更を commit するかバックアップを取ることを求めている。
-- **初期化すると、`.specify/`（memory・scripts・templates 等）と、Claude Code 用の Skill（`.claude/skills/speckit-<command>/`）が追加される。** 既存のファイルは書き換えない `[Fact]`（2026-10-23 の実測で、既存の `CLAUDE.md`・`.gitignore` は変わらなかった）。機能毎の成果物は、リポジトリ直下の `specs/<NNN-name>/`（spec.md・plan.md・tasks.md）に置かれる。
+- **初期化すると、`.specify/`（memory・scripts・templates 等）と、Claude Code 用の Skill（`.claude/skills/speckit-<command>/`）が追加される。** 既存の `CLAUDE.md`・`.gitignore` は書き換えなかった `[Fact]`（2026-10-23 の実測。他の既存ファイルは確かめていない）。機能毎の成果物は、リポジトリ直下の `specs/<NNN-name>/`（spec.md・plan.md・tasks.md）に置かれる。
 - **Claude Code では `/speckit-specify` のようにハイフンで呼ぶ。** 公式の references はドット形（`/speckit.specify`）で書かれている（公式 `docs/integrations/cli.md` の Command Invocation）。下の表は Claude Code の呼び名で書く。
 
 **コマンドと2つの流れ:** 公式の Quick Start は、小さめの機能向けの「短い流れ」と、本番の機能向けの「全部の流れ」を分けている——**§2 の重量の選び分けと同じ軸が、Spec Kit の中にもある。**
