@@ -47,6 +47,7 @@ Claude Code / Agent Skills / Spec Kit を活用したAI駆動開発の**方法�
 | 05 | `05_templates-and-patterns.md` | 具体テンプレート・構成例・チェックリスト |
 | 06 | `06_requirements-spec-brainstorm.md` | 要件・仕様（WHAT）の壁打ち・レビュー方法論 |
 | — | `README.md` | 初回導線・全体概略。初めて読む人の入口 |
+| — | `README.en.md` | 英語の読み手向けの短い案内（本文の訳ではない） |
 | — | `docs/design-decisions.md` | 設計判断とその理由の記録 |
 | — | `BACKLOG.md` | 発展課題・未解決論点・活性化状況 |
 | — | `setup-claude-code.md` | 別マシンでの再セットアップ手順 |

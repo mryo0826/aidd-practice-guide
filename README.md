@@ -1,5 +1,22 @@
 # AI駆動開発 実践ガイド
 
+English: [README.en.md](README.en.md)
+
+**IT エンジニアでない方へ（まずここだけ読んで下さい）**
+
+**これは何か:** 生成AI に仕事を手伝わせると、速い代わりに、もっともらしい間違いも混ざります。このガイドは、その間違いに人間が気づける様に、AI と一緒に物を作る時の「進め方の決まり事」を集めた物です。
+
+**誰向けか:** AI を使ったシステム開発に関わる人です。プログラムを書かない立場（企画・要件を決める・進行を管理する等）の人も含みます。ただし本文は、開発者と、本文を読み込んで動く AI ツールに向けて書いてあり、専門用語が多いです。
+
+**最初の1手:** 本文を自分で読み通す必要は有りません。普段使っている生成AI のチャットにこのガイドを読ませて、「私は〈あなたの立場。例: 業務部門の担当で、AI を使った開発のプロジェクトで要件を決める役〉です。このガイドの進め方で、私が最初にやる事は何ですか。専門用語を使わずに教えて下さい」と聞いて下さい。何を作るか（要件・仕様）を決める立場なら、要件の決め方の章も読ませて下さい。
+
+- このページ: https://raw.githubusercontent.com/mryo0826/aidd-practice-guide/refs/heads/main/README.md
+- 要件の決め方の章（`06`）: https://raw.githubusercontent.com/mryo0826/aidd-practice-guide/refs/heads/main/06_requirements-spec-brainstorm.md
+
+**ここから下は、開発者と AI ツール向けの説明です。**
+
+---
+
 **アジャイル/スクラムの規律を、AIとの協働に適用する。**
 
 Claude Code / Agent Skills を活用したAI駆動開発（AIDD: AI-Driven Development）の**方法論と実践知を体系化した**実践ガイド。ツールの使い方集ではなく、**進め方（プロセス）の規律**を主題とする。
@@ -47,7 +64,7 @@ Claude Code / Agent Skills を活用したAI駆動開発（AIDD: AI-Driven Devel
 
 ## このREADMEの役割
 
-- **README.md（本ファイル）** = 初回導線・全体概略。初めて読む人はここから始める
+- **README.md（本ファイル）** = 初回導線・全体概略。初めて読む人はここから始める ／ **[README.en.md](README.en.md)** = 英語の読み手向けの短い案内（本文の訳ではない）
 - **[CLAUDE.md](CLAUDE.md)** = 制御plane（現在モード・ファイルマップ・編集規約・再開手順・チーム共通ルール）。Claude Code が常時ロードする
 - **[docs/design-decisions.md](docs/design-decisions.md)** = 設計判断とその理由の記録 ／ **[BACKLOG.md](BACKLOG.md)** = 発展課題・未解決論点・活性化状況
 - **[setup-claude-code.md](setup-claude-code.md)** = 別マシンでの再セットアップ手順（環境の定義の正本） ／ **[user-memory-template.md](user-memory-template.md)** = 個人メモリ（`~/.claude/CLAUDE.md`）のテンプレート。全プロジェクト共通の個人作業原則
