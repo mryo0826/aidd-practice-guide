@@ -21,7 +21,7 @@
 | **HOW** | どう作るか（開発戦略・ツール・Skills・実装） | 01〜05 |
 
 - この方法論は **methodology（再利用可能）** なので Skill 化して横断利用する。プロジェクト固有の要件 **content** は仕様ファイル／`CLAUDE.md` に置き、方法論と混ぜない（分離原則は `03_agent-skills-knowhow.md` セクション2 / `04_spec-kit-integration.md` セクション1.1）。
-- Spec Kit を使う場合、本方法論は Specify（What/Why を定義する）フェーズの思考法にあたる（`04_spec-kit-integration.md` 参照）。
+- Spec Kit を使う場合、本方法論は Specify（What/Why を定義する）と Clarify（曖昧な所を質問で潰す）のフェーズの思考法にあたる（`04_spec-kit-integration.md` 参照）。
 
 ---
 
@@ -89,13 +89,15 @@
 ## 7. レビュー Output Format（レビュー時のみ）
 
 ```
-■ 🔴 致命的（今すぐスクラップ＆ビルドすべき設計欠陥）
+■ 🔴 致命的（このまま確定すると、後の手戻りが致命的になる欠陥）
 ■ 🟡 懸念（本番運用・例外系・仕様変更で障害になる点）
 ■ 💡 改善案 / 代替アーキテクチャ案
 ■ 🔬 要検証リスト（最大5件。各項目「何を」「どの公式ドキュメントで（可能なら具体的な URL）」をセットで）
 ```
 
+- 🔴 は**影響**で決める（直し方の大きさでは決めない）——局所の修正で直る欠陥でも、確定すると手戻りが致命的になるなら 🔴 である。
 - 各指摘には一意なID（`f1`, `f2`…）を付け、受け手が ID 単位で採否・対応を指示できるようにする。指摘に限らず、提案・意見・選択肢など**採否を判断しうる出力すべて**が対象（`01_ai-driven-dev-strategy.md` セクション2「採否を判断しうる出力には一意なIDを振る」）。
+- 各出力に状態（`採用 / 却下 / 保留`）の列を用意し、**初回の出力では空けておく**——受け手（人間）が裁定を書き戻す列であり、レビューする側が埋めない（同じく `01` セクション2）。
 - 確定した各 What に AC が紐づいているかも確認し、欠落・How混入・検収不能な抽象 AC は 🔴/🟡 として扱う。
 - 💡 は「改善案／代替アーキテクチャ案」（設計レベルの選択肢提示）。要件・仕様レビューでは実装コードそのものは求めない（役割スコープが WHAT のため）。
 
@@ -118,7 +120,9 @@
 
 - **description 例:** 「要件・仕様の壁打ち＆レビュー。甘い前提・抜けた非機能要件・外部API/クラウド制約の見落としを、PdM 兼アーキテクト視点で媚びずに突く。要件定義・仕様策定・設計レビュー時に使用。」
 - プロジェクト固有の要件・数値・納期は Skill に埋め込まず、context ファイル側に置く（`03_agent-skills-knowhow.md` セクション2 の methodology/content 分離）。
+- Skill 自身に、機能したかを判定できる受入基準（AC）を持たせる（`05_templates-and-patterns.md` セクション1.1 のテンプレートの AC 節）。「良いレビューをする」は falsify 不能なので AC にしない。
 - Skill 設計の一般則は `03_agent-skills-knowhow.md`、確度ラベルは `01_ai-driven-dev-strategy.md` セクション2、ドキュメント記述規約は `02_mcp-and-tools-ecosystem.md` セクション6 を参照。
+- **本方法論の Skill の実物は `.claude/skills/requirements-review/`**（AC1〜AC4 を持つ）。
 
-<!-- BRAINSTORM: WHAT壁打ち用Skillの具体テンプレートを 05_templates-and-patterns.md に追加したい -->
+<!-- BRAINSTORM: WHAT壁打ち用Skillの実物（.claude/skills/requirements-review/）を、05_templates-and-patterns.md にテンプレートとして転記したい -->
 <!-- BRAINSTORM: 受入基準（AC）の良い例・悪い例の事例集を蓄積したい -->

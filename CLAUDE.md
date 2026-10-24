@@ -43,7 +43,7 @@ Claude Code / Agent Skills / Spec Kit を活用したAI駆動開発の**方法�
 | 01 | `01_ai-driven-dev-strategy.md` | 全体戦略・モード活用・モデル選択・確度ラベル・クロスレビュー |
 | 02 | `02_mcp-and-tools-ecosystem.md` | MCP・CLIの選定・運用（Token効率）・ドキュメント記述規約 |
 | 03 | `03_agent-skills-knowhow.md` | Agent Skillsの設計・運用ノウハウ |
-| 04 | `04_spec-kit-integration.md` | 仕様駆動の重量選択・Spec Kit 評価と使い分け |
+| 04 | `04_spec-kit-integration.md` | 仕様駆動の重量選択・Spec Kit の使い分け |
 | 05 | `05_templates-and-patterns.md` | 具体テンプレート・構成例・チェックリスト |
 | 06 | `06_requirements-spec-brainstorm.md` | 要件・仕様（WHAT）の壁打ち・レビュー方法論 |
 | — | `README.md` | 初回導線・全体概略。初めて読む人の入口 |

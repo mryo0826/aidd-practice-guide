@@ -85,4 +85,4 @@ description: このガイドを題材にした技術記事（Zenn 等）の構�
 
 ---
 
-> **本ガイドでの出典（正本）:** 二層読者と「発火が証拠として強い」立脚点は `docs/design-decisions.md` §6、引用を自己の実証として提示する誤りの実例は `docs/design-decisions.md` §4、確度ラベルは `01_ai-driven-dev-strategy.md` セクション2、指摘 ID＋状態列の規律は `05_templates-and-patterns.md` セクション1.5。この Skill 単体で自足するよう方法論を蒸留してあり、実行時に上記ファイルへ依存しない。
+> **本ガイドでの出典（正本）:** 二層読者と「発火が証拠として強い」立脚点は `docs/design-decisions.md` §6、引用を自己の実証として提示する誤りの実例は `docs/design-decisions.md` §4、確度ラベルと、指摘 ID＋状態列の規律は `01_ai-driven-dev-strategy.md` セクション2（指摘 ID のテンプレートは `05_templates-and-patterns.md` セクション1.5）。この Skill 単体で自足するよう方法論を蒸留してあり、実行時に上記ファイルへ依存しない。

@@ -119,21 +119,23 @@ description: Spec Kitの仕様駆動開発ワークフローを実行する。�
 
 | フェーズ | コマンド | やること |
 |---------|---------|---------|
-| 仕様定義 | `/speckit.specify` | What/Why を記述。技術スタックは書かない |
-| 計画策定 | `/speckit.plan` | 技術スタック・アーキテクチャを選択 |
-| タスク分解 | `/speckit.tasks` | 実装可能な粒度に分解 |
-| 実装 | `/speckit.implement` | タスクを1つずつ実行 |
+| 仕様定義 | `/speckit-specify` | What/Why を記述。技術スタックは書かない |
+| 計画策定 | `/speckit-plan` | 技術スタック・アーキテクチャを選択 |
+| タスク分解 | `/speckit-tasks` | 実装可能な粒度に分解 |
+| 実装 | `/speckit-implement` | タスクを1つずつ実行 |
+| 突き合わせ | `/speckit-converge` | コードを成果物と突き合わせ、残りを tasks に足す |
 
-## 補助コマンド
+## 補助コマンド（本番の機能では、全部の流れとして挟む）
 
-- `/speckit.constitution` — プロジェクト原則の定義・更新
-- `/speckit.clarify` — 仕様の曖昧さを解消
-- `/speckit.analyze` — 仕様間の一貫性チェック
+- `/speckit-constitution` — プロジェクト原則の定義・更新
+- `/speckit-clarify` — 仕様の曖昧さを解消（specify の後）
+- `/speckit-checklist` — 要件の品質のチェックリスト（plan の後）
+- `/speckit-analyze` — spec・plan・tasks の一貫性チェック（tasks の後・読むだけ）
 
 ## 運用ルール
 
-1. 1機能 = 1 Gitブランチ = 1 セッション で進める
-2. 仕様が大きい場合はフェーズを分割して `/speckit.implement` を複数回実行
+1. 1機能 = 1 Gitブランチ = 1 セッション で進める（整理の仕方。Spec Kit は `.specify/feature.json` で機能を決め、ブランチは見ない）
+2. 仕様が大きい場合はフェーズを分割して `/speckit-implement` を複数回実行
 3. Constitution と `CLAUDE.md` の内容を重複させない（正本/参照パターンを守る）
 ```
 

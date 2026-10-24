@@ -1,12 +1,12 @@
-# 04. 仕様駆動の重量選択（Spec Kit の評価と使い分け）
+# 04. 仕様駆動の重量選択（Spec Kit の使い分け）
 
-> **このファイルの責務:** 仕様駆動を「どの重量で回すか」の判断。3層モデル（What / How / 制約）、使い分けトリガー、そして重量級ツール Spec Kit を評価した上で**主運用にしなかった判断**の記録。テンプレート・構成例は `05_templates-and-patterns.md` を参照。
+> **このファイルの責務:** 仕様駆動を「どの重量で回すか」の判断。3層モデル（What / How / 制約）、使い分けトリガー、そして重量級ツール Spec Kit を**主運用にしなかった判断**の記録（動かして評価した記録ではない——出自は §3）。テンプレート・構成例は `05_templates-and-patterns.md` を参照。
 
 ## 前提思想
 
 > **仕様駆動は「やるか否か」ではなく「どの重量で回すか」の問題。What（仕様）はツール非依存で固定でき、重量級の Spec Kit は中〜大規模・多論点の変更でのみ割に合う。**
 >
-> 実践では、多くのタスクは `仕様Markdown + Agent Skills` の軽量運用で足り、Spec Kit のフルフローは過剰だった。本章はその判断の記録であり、Spec Kit を「使うと決めたときの入口」も最小限だけ残す。
+> 実践では、多くのタスクは `仕様Markdown + Agent Skills` の軽量運用で足り、Spec Kit のフルフローを要する場面は無かった。本章はその判断の記録であり、Spec Kit を「使うと決めたときの入口」も最小限だけ残す。
 >
 > **`[Judgment]` 軽量運用は「仕様を書かない」ことではない。** モデルが強力になるほど、やりたいことを雑に投げて丸ごと任せたくなる。しかし出力がもっともらしくなるほど**反証（falsify）は難しくなる**ため、What を検証可能な形で固定する規律の価値は、下がるどころか**上がる**。軽くしてよいのは実現手段（ツールの重量）であって、What と受入基準（AC）を固定する規律ではない。
 
@@ -54,21 +54,23 @@ How層（どう作るか）   → Agent Skills（タスクの実行手順）
 
 ---
 
-## 3. Spec Kit を主運用にしなかった判断（評価記録）
+## 3. Spec Kit を主運用にしなかった判断
 
-Spec Kit は GitHub 公式の仕様駆動開発（SDD: Spec-Driven Development）ツールキット（MIT License）。仕様→計画→タスク→実装のワークフローをスラッシュコマンドで提供する。評価の上で、**現状は主運用に採用していない。**
+Spec Kit は GitHub 公式の仕様駆動開発（SDD: Spec-Driven Development）ツールキット（MIT License）。仕様→計画→タスク→実装のワークフローを、エージェントから呼ぶコマンド（Claude Code では Skill）で提供する。**現状は主運用に採用していない。**
 
-**却下した理由:**
-- **対象タスクの規模が合わなかった:** 要件が明確で小〜中規模の変更は `仕様Markdown + Skills` で完結し、Spec Kit フルフローは不要だった（`02_mcp-and-tools-ecosystem.md` セクション1.3 の適用例）。
-- **学習・初期コスト:** Constitution 設計やフェーズ運用に初期コストがかかり、軽量タスクでは投資対効果が出にくい。
-- **Token効率:** Spec Kit 自体はCLIでベースライン増加はないが、`.specify/` の仕様ファイルは実装フェーズで大量消費しうる。
+> **出自 `[Fact]`:** 本節は、Spec Kit を動かして評価した記録ではない。**2025-12 頃の情報を前提に、2026-03 の本ガイドのごく初期のプロトタイプで、動かさずに当時のモデル（Opus 4.8 前後）の学習知識を元に定義した**判断である。2026-10-23 に別系統の生成AI のクロスレビュー（`01` §2 の段階3）で §4 の陳腐化が見つかり、Spec Kit `v1.2.3` で `specify init` だけを実測した。**フルフローは今も動かしていない。**
+
+**採用しなかった理由**（いずれも動かして確かめた物ではない）:
+- **対象タスクの規模が合わなかった `[Assumption]`:** 要件が明確で小〜中規模の変更は `仕様Markdown + Skills` で完結し、Spec Kit フルフローは不要だった（`02_mcp-and-tools-ecosystem.md` セクション1.3 の適用例）。
+- **学習・初期コスト `[Assumption]`:** Constitution 設計やフェーズ運用に初期コストがかかり、軽量タスクでは投資対効果が出にくい。
+- **Token効率 `[Assumption]`:** 機能毎の仕様ファイル（`specs/<NNN-name>/` の spec・plan・tasks）は、実装フェーズで大量に消費しうる。加えて、CLI のプロセスは常駐しないが、Claude Code 向けには `/speckit-*` の Skill が入り、既定ではその説明文が Skill 一覧の予算を消費する `[Fact]`（公式 `docs/integrations/claude.md`。初期化の時に `--integration-options="--no-model-invocation"` を付けると、中核のコマンドの Skill は人間が呼ぶ時だけ動き、説明文が文脈から外れる）。
 
 **Spec Kit が割に合う条件（採用を再検討すべき場面）:**
 - 論点が多い／中〜大規模の機能追加
 - 複数の技術スタックで並行実装を試す（Creative Exploration）
 - 既存コードベースで破壊的変更のガードレール（Constitution）を明示的に効かせたい
 
-> **正直な但し書き:** Spec Kit のフルフロー本格運用は未実証。上記は「評価と現時点の判断」であり、大型タスクが来たら検証して更新する。
+> **正直な但し書き:** Spec Kit のフルフローは一度も動かしていない（`init` だけを 2026-10-23 に実測した）。上記は「動かさずに定義した現時点の判断」であり、大型タスクが来たら検証して更新する。
 
 <!-- BRAINSTORM: 中〜大規模タスクが来たら Spec Kit フルフローを実際に試し、Token消費・使い勝手を検証したい -->
 
@@ -78,36 +80,48 @@ Spec Kit は GitHub 公式の仕様駆動開発（SDD: Spec-Driven Development�
 
 Spec Kit を採用する場合の最小手順のみ示す。詳細は公式ドキュメントに委ねる。
 
-**初期化（Claude Code をエージェント指定）:**
+> **確認日 2026-10-23・Spec Kit `v1.2.3`**（公式の Installation Guide・Quick Start と照らし、`specify init` を実測した）。Spec Kit は版が速く進み、本節の旧版の手順もそれで動かなくなった。⇒ **使う前に、公式の [Installation Guide](https://github.github.io/spec-kit/installation.html) と照らすこと。**
+
+**インストール（版を固定した常設のインストール。公式の推奨経路）と初期化（Claude Code を指定）:**
 
 ```bash
-# Linux / macOS
-uvx --from git+https://github.com/github/spec-kit.git specify init . --ai claude --script sh
+# vX.Y.Z は Releases のタグ（先頭の v を残す）
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@vX.Y.Z
 
-# Windows (PowerShell)
-uvx --from git+https://github.com/github/spec-kit.git specify init . --ai claude --script ps
+# 既存のプロジェクトに入れる（Linux / macOS は --script sh、Windows の PowerShell は --script ps）
+specify init --here --force --integration claude --script sh
 ```
 
-初期化後に `.specify/` が生成される（既存コードには影響しない）。以下のスラッシュコマンドが使えるようになる。
+- **空でないディレクトリには `--force` が要る**（合流の確認）。公式は、先に既存の変更を commit するかバックアップを取ることを求めている。
+- **初期化すると、`.specify/`（memory・scripts・templates 等）と、Claude Code 用の Skill（`.claude/skills/speckit-<command>/`）が追加される。** 既存のファイルは書き換えない `[Fact]`（2026-10-23 の実測で、既存の `CLAUDE.md`・`.gitignore` は変わらなかった）。機能毎の成果物は、リポジトリ直下の `specs/<NNN-name>/`（spec.md・plan.md・tasks.md）に置かれる。
+- **Claude Code では `/speckit-specify` のようにハイフンで呼ぶ。** 公式の references はドット形（`/speckit.specify`）で書かれている（公式 `docs/integrations/cli.md` の Command Invocation）。下の表は Claude Code の呼び名で書く。
 
-| コマンド | 役割 |
-|---------|------|
-| `/speckit.constitution` | プロジェクトの原則・制約を定義 |
-| `/speckit.specify` | 要件を定義（What/Why。技術スタックは書かない） |
-| `/speckit.plan` | 技術スタック・アーキテクチャの選択 |
-| `/speckit.tasks` | 実装可能な粒度にタスク分解 |
-| `/speckit.implement` | タスクを実行（ここで Agent Skills が手順を提供） |
+**コマンドと2つの流れ:** 公式の Quick Start は、小さめの機能向けの「短い流れ」と、本番の機能向けの「全部の流れ」を分けている——**§2 の重量の選び分けと同じ軸が、Spec Kit の中にもある。**
+
+| コマンド | 役割 | 短い流れ | 全部の流れ |
+|---------|------|:---:|:---:|
+| `/speckit-constitution` | プロジェクトの原則・制約を定義（プロジェクトに1回） | ○ | ○ |
+| `/speckit-specify` | 要件を定義（What/Why。技術スタックは書かない） | ○ | ○ |
+| `/speckit-clarify` | 曖昧な所を質問で潰し、答えを spec に戻す | — | ○ |
+| `/speckit-plan` | 技術スタック・アーキテクチャの選択 | ○ | ○ |
+| `/speckit-checklist` | 要件の品質のチェックリストを作る | — | ○ |
+| `/speckit-tasks` | 実装可能な粒度にタスク分解 | ○ | ○ |
+| `/speckit-analyze` | spec・plan・tasks の間の矛盾・抜けを報告する（読むだけ） | — | ○ |
+| `/speckit-implement` | タスクを実行（ここで Agent Skills が手順を提供） | ○ | ○ |
+| `/speckit-converge` | コードを成果物と突き合わせ、残りを tasks に足す | ○ | ○ |
 
 **Token消費を抑える運用:**
-1. 1機能 = 1 Gitブランチ = 1 セッション で進める（Spec KitはGitブランチで機能を検出）
-2. 仕様が大きい場合はフェーズを分割して `/speckit.implement` を複数回実行
-3. 完了した機能の `.specify/features/` は、次のセッションで読ませない
+1. 1機能 = 1 Gitブランチ = 1 セッション で進める——**これは整理の仕方であって、Spec Kit の仕組みではない。** Spec Kit は `.specify/feature.json` が指す機能のディレクトリで今の機能を決め、チェックアウト中のブランチは見ない（Git 自体が要らない）。番号付きのブランチは、opt-in の git 拡張が担う
+2. 仕様が大きい場合はフェーズを分割して `/speckit-implement` を複数回実行
+3. 完了した機能の `specs/<NNN-name>/` は、次のセッションで読ませない
 
 ---
 
 ## 5. Constitution と CLAUDE.md の重複回避（採用時のみ）
 
 Spec Kit を使う場合、Constitution（Spec Kit の原則ファイル）と CLAUDE.md（常時ロードの制約）で同じ内容を二重に書かない。一方が「正本」、他方は「参照」とする。
+
+> **効く場面で分ける:** Constitution は **Spec Kit の流れの中**の正本（以後の各手順は、これに照らして評価される——公式 Quick Start）、`CLAUDE.md` は**全ての作業で常に効く**正本。Spec Kit の流れの外で実装するときに効くのは `CLAUDE.md` である。
 
 | 内容 | 正本 | もう片方の書き方 |
 |------|------|----------------|
