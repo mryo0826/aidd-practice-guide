@@ -19,7 +19,7 @@
 ### 1. リポジトリを clone する
 
 ```bash
-git clone <repository-url> ~/git/aidd-practice-guide
+git clone https://github.com/mryo0826/aidd-practice-guide ~/git/aidd-practice-guide
 ```
 
 clone すると、リポジトリルートの `CLAUDE.md`（プロジェクトメモリ・常時ロード）がそのまま有効になる。
