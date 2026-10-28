@@ -55,6 +55,25 @@ clone すると、リポジトリルートの `CLAUDE.md`（プロジェクト�
 - ⚠️ **置き換えないと、あなたの AI は著者の呼称規約をそのまま適用する**——**規約は発火するが、指す相手が居ない。**
 - 📌 **ここに具体的な既定値を書き写さない。** 二重管理になり、`CLAUDE.md` 側を変えた時点でこの手順書が腐る。**開いて、その場で置き換えること。**
 
+### 1-4. 権限モードを Manual にする
+
+> **⚠️ Claude Code v2.1.283 以降、端末と VS Code の対話のセッションは、既定で auto mode から始まる。** auto mode では、人間の代わりに分類器（別のモデル）が操作を審査するので、本ガイドが前提にする「外に出る直前の人間の検査」（commit / push の承認）が出る保証が無い。
+
+`~/.claude/settings.json` の `permissions` に、Manual（設定値は `default`）を置く:
+
+```json
+{
+  "permissions": {
+    "defaultMode": "default"
+  }
+}
+```
+
+- **VS Code 拡張では、この設定より先に効くものが2つある**——拡張のユーザー設定 `claudeCode.initialPermissionMode` と、モードの表示から最後に選んだモード。⇒ **新しい会話を Manual で始める事を固定するなら、`claudeCode.initialPermissionMode` にも `default` を置く。**
+- auto 以外の `defaultMode` を置くと、Pro・Max・Team のプランでは「auto に変えるか」を一度だけ聞かれる。**変えずに残す。**
+- Bash の承認の問いには「Yes, and switch to auto mode」という選択肢が出る事がある。**選ぶとセッションが auto mode に移る。**
+- 詳しくは公式の[権限モードの頁](https://code.claude.com/docs/en/permission-modes)。
+
 ### 2. ナレッジを読む
 
 `README.md` を起点に、ドキュメント構成（`01` 〜 `06`）を番号順に確認する。
