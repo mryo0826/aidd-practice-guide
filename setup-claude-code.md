@@ -69,6 +69,7 @@ clone すると、リポジトリルートの `CLAUDE.md`（プロジェクト�
 }
 ```
 
+- 既に `~/.claude/settings.json` が在るなら、ファイルを置き換えず、`permissions` の中に `"defaultMode": "default"` の1行を足す（`permissions` が無ければ、その塊ごと足す）。
 - **VS Code 拡張では、この設定より先に効くものが2つある**——拡張のユーザー設定 `claudeCode.initialPermissionMode` と、モードの表示から最後に選んだモード。⇒ **新しい会話を Manual で始める事を固定するなら、`claudeCode.initialPermissionMode` にも `default` を置く。**
 - auto 以外の `defaultMode` を置くと、Pro・Max・Team のプランでは「auto に変えるか」を一度だけ聞かれる。**変えずに残す。**
 - Bash の承認の問いには「Yes, and switch to auto mode」という選択肢が出る事がある。**選ぶとセッションが auto mode に移る。**
