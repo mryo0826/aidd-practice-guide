@@ -41,7 +41,7 @@ Claude Code に特定のタスクの実行方法を教えるMarkdownファイル
 | タスク固有文脈 | 短命コンテキストファイル（ファイル名を伝えて読ませる） | 個別タスクの修正対象・局所文脈 | **短命（タスク完了後に削除）** |
 | ディレクトリ固有の規約 | ディレクトリ別 `CLAUDE.md`（そのディレクトリで作業する間ロードされる） | そのディレクトリだけに効く規約 | 恒久 |
 
-タスク固有の短命コンテキストファイルはタスク開始時に作成し、PR作成前に削除する。完了後も残すと後続タスクのコンテキストを汚染するため、削除はタスク完了の確認節目として扱う。
+タスク固有の短命コンテキストファイルはタスク開始時に作成し、PR作成前に削除する（著者の判断 `[Judgment]`）。完了後も残すと後続タスクのコンテキストを汚染する——測っていない `[Assumption]`。削除はタスク完了の確認節目として扱う。
 
 > **タスク文脈の渡し方:** Claude Code には、ファイルのパターンに応じてルールを読み込む仕組み（`.claude/rules/` の `paths` frontmatter）があるが、本ガイドの実践では使っていない。タスク固有文脈は、ファイル名を伝えて読ませるか（`@` 参照は要らない——AI が自分で読む）、対象ディレクトリ配下に置いた `CLAUDE.md`（そのディレクトリで作業する間ロードされる）で与える。
 
@@ -65,7 +65,7 @@ Claude Code に特定のタスクの実行方法を教えるMarkdownファイル
 | 2回以上繰り返した原則 | `CLAUDE.md` に短い1行で追加 | 恒久 |
 | 手順として定型化できる | Skill（`SKILL.md`） | 恒久 |
 
-> **ポイント:** 教訓をいきなり `CLAUDE.md` に書かない。まず一時メモに置き、繰り返し発生したものだけを昇格させる。これにより `CLAUDE.md` が肥大化するのを防ぐ。
+> **ポイント:** 教訓をいきなり `CLAUDE.md` に書かない。まず一時メモに置き、繰り返し発生したものだけを昇格させる。これにより `CLAUDE.md` が肥大化するのを防ぐ——著者の実践から。効果は測っていない `[Assumption]`。
 
 **methodology（方法論）と content（固有文脈）の分離:**
 
@@ -108,7 +108,7 @@ description: Gitのヘルパー
 | 段階的開示 | 必須情報→SKILL.md、詳細→reference.md |
 | 参照は1階層まで | SKILL.md → reference.md は可。reference.md → detail.md は避ける |
 
-> **出典 `[Fact]`:** 「500行以内」「参照は1階層まで」と、§4 の「スクリプトの利点」の3点は、Anthropic の公式の [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) に同じ記述が有る（確認日 2026-10-23）。
+> **出典 `[Fact]`:** 「500行以内」「参照は1階層まで」と、§4 の「スクリプトの利点」の3点は、Anthropic の公式の [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices.md) に同じ記述が有る（確認日 2026-10-23）。「簡潔さ最優先」も同じページの「Concise is key」と「Default assumption: Claude is already very smart」に有る（確認日 2026-11-05）。
 
 ### 3.3 設計パターン
 
@@ -148,5 +148,5 @@ skill-name/
 | 個人用の上限 | 10〜15個（汎用的で競合しにくいがメンテコスト増大）——著者の経験則 `[Judgment]` |
 | 初期導入 | 2〜3個から始め、実際に困った時に足す（Pain Driven） |
 
-粒度が粗い Skill は description が曖昧になり、エージェントがトリガーを外しやすくなる。
+粒度が粗い Skill は description が曖昧になり、エージェントがトリガーを外しやすくなる——著者の観察。測っていない `[Assumption]`。
 迷ったら分割する。⚠️ **但し、分ける軸は「発火する場面」である。** 発火する場面が同じで、対象の違い（例: 公開か非公開か）だけなら分けず、Skill の中で1回だけ分岐させる——本ガイド自身の検査の Skill は、この形に統合して本数を減らした（`docs/design-decisions.md`「検査 Skill は『操作』で分け、『公開か非公開か』は Skill の中で1回だけ分岐させる」）。
