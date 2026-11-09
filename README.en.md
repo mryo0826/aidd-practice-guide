@@ -22,6 +22,7 @@ Some of the files are also loaded directly by AI tools (for example, `CLAUDE.md`
 | [04](04_spec-kit-integration.md) | How heavy a spec-driven process to use; when to use Spec Kit |
 | [05](05_templates-and-patterns.md) | Templates, examples, and checklists |
 | [06](06_requirements-spec-brainstorm.md) | Brainstorming and reviewing requirements and specs (the "what" before the "how") |
+| [07](07_ai-agents.md) | Working with AI agents that persist across sessions or split where they write: jurisdiction, approval, and keeping state in files |
 | [CLAUDE.md](CLAUDE.md) | The control file that Claude Code loads every session |
 | [docs/design-decisions.md](docs/design-decisions.md) | Design decisions and their reasons, including corrections |
 | [BACKLOG.md](BACKLOG.md) | Open issues and how far each idea has been put into practice |

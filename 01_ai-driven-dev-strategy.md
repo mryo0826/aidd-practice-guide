@@ -24,7 +24,7 @@
 
 ## 用語凡例（本ガイド共通）
 
-このガイド（`01`〜`06`、`CLAUDE.md`、および `docs/design-decisions.md`・`BACKLOG.md`）では、以下の用語・記号を区別して使用する。
+このガイド（`01`〜`07`、`CLAUDE.md`、および `docs/design-decisions.md`・`BACKLOG.md`）では、以下の用語・記号を区別して使用する。
 
 | 用語 | 意味 | 使用例 |
 |------|------|--------|
